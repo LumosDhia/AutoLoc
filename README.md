@@ -49,3 +49,17 @@ UP ASI (Architecture des Systèmes d'Information), ESPRIT.
 - Créer et configurer les agences
 - Gérer les utilisateurs et leurs rôles
 - Superviser l'activité globale de la plateforme
+
+## 4. Environnement fonctionnel
+
+### Terminal : JDK 17, Git, MySQL
+
+![Terminal : java, javac, git et MySQL](docs/terminal.png)
+
+### IntelliJ IDEA Ultimate
+
+![IntelliJ IDEA Ultimate avec le projet AutoLoc](docs/intellij.png)
+
+### Postman : collection AutoLoc-API
+
+![Postman avec la collection AutoLoc-API](docs/postman.png)
