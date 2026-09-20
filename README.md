@@ -61,25 +61,3 @@ UP ASI (Architecture des Systèmes d'Information), ESPRIT.
 | Documentation API | springdoc-openapi (Swagger UI) |
 | Tests | JUnit 5, Mockito, MockMvc, Jacoco |
 | Outillage | Git/GitHub, Postman, IntelliJ IDEA Ultimate |
-
-## 5. Environnement de développement
-
-Prérequis installés (Atelier 0) : JDK 17, IntelliJ IDEA Ultimate, MySQL 8, Postman, Git.
-
-Base de données locale : `autoloc_db` (`utf8mb4`).
-
-```sql
-CREATE DATABASE autoloc_db CHARACTER SET utf8mb4;
-```
-
-Vérification de la chaîne d'outils :
-
-```bash
-java -version    # 17.x
-javac -version   # 17.x
-git --version
-```
-
-## 6. Preuve de l'environnement fonctionnel
-
-Voir [`docs/environment.md`](docs/environment.md).
