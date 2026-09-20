@@ -4,10 +4,10 @@
   <img src="https://skillicons.dev/icons?i=java,spring,hibernate,maven,mysql,git,github,idea,postman" alt="Java, Spring, Hibernate, Maven, MySQL, Git, GitHub, IntelliJ IDEA, Postman" />
 </p>
 
-Plateforme de gestion de location de véhicules **multi-agences** — étude de cas du module
+Plateforme de gestion de location de véhicules **multi-agences** : étude de cas du module
 UP ASI (Architecture des Systèmes d'Information), ESPRIT.
 
-> **Statut : v0 (Atelier 0)** — mise en place de l'environnement et cadrage initial.
+> **Statut : v0 (Atelier 0)** : mise en place de l'environnement et cadrage initial.
 
 ## 1. Objectifs du projet
 
