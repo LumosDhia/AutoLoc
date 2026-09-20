@@ -23,7 +23,7 @@ UP ASI (Architecture des Systèmes d'Information), ESPRIT.
 |---|---|
 | **Client** | Recherche un véhicule, réserve, consulte et annule ses réservations. |
 | **Agent d'agence** | Gère le parc de son agence, enregistre départs/retours, crée des locations au comptoir. |
-| **Responsable d'agence** | Supervise son agence : statistiques, tarifs, validation des opérations sensibles. |
+| **Responsable d'agence (Manager)** | Supervise son agence : statistiques, tarifs, validation des opérations sensibles. |
 | **Administrateur** | Gère les agences, les comptes utilisateurs, les rôles et la configuration globale. |
 
 ## 3. Cas d'utilisation (première liste)
@@ -40,7 +40,7 @@ UP ASI (Architecture des Systèmes d'Information), ESPRIT.
 - Créer une location au comptoir
 - Déclarer une maintenance ou un sinistre
 
-**Responsable d'agence**
+**Responsable d'agence (Manager)**
 - Consulter les statistiques de l'agence (taux d'occupation, chiffre d'affaires)
 - Définir et modifier les tarifs
 - Gérer les agents de son agence
