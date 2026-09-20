@@ -1,0 +1,11 @@
+{
+  "info": {
+    "name": "AutoLoc-API",
+    "description": "Requetes de test des endpoints REST d'AutoLoc (a remplir a partir de l'Atelier 5).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" }
+  ]
+}
