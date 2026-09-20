@@ -52,9 +52,9 @@ UP ASI (Architecture des Systèmes d'Information), ESPRIT.
 
 ## 4. Environnement fonctionnel
 
-### Terminal : JDK 17, Git, MySQL
+### Terminal : Java, MySQL, Git
 
-![Terminal : java, javac, git et MySQL](docs/terminal.png)
+![Terminal : versions de Java et MySQL, nom et email Git](docs/terminal.png)
 
 ### IntelliJ IDEA Ultimate
 
