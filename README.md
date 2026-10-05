@@ -56,6 +56,23 @@ UP ASI (Architecture des Systèmes d'Information), ESPRIT.
 
 ![Terminal : versions de Java et MySQL, nom et email Git](docs/terminal.png)
 
+### Base de données : MariaDB au lieu de MySQL
+
+Le poste de développement tourne sous Debian 13, où le SGBD fourni par défaut est **MariaDB**
+(le paquet `mysql` installe MariaDB). Le pilote MySQL (`mysql-connector-j`) n'arrive pas à s'y
+connecter : l'application s'arrête au démarrage (`Unable to determine Dialect without JDBC metadata`).
+Le projet utilise donc le pilote MariaDB.
+
+Cela ne change rien au projet :
+
+- MariaDB est un fork de MySQL : même langage SQL, même port (3306), mêmes types de colonnes.
+- Seules deux lignes diffèrent : la dépendance `mariadb-java-client` dans `pom.xml` et le préfixe
+  `jdbc:mariadb://` dans `application.properties`.
+- Les entités, les annotations JPA et la configuration Hibernate restent identiques : Hibernate
+  détecte le dialecte tout seul et génère les mêmes tables.
+
+Pour revenir à MySQL, il suffit de remettre `mysql-connector-j` et `jdbc:mysql://`.
+
 ### IntelliJ IDEA Ultimate
 
 ![IntelliJ IDEA Ultimate avec le projet AutoLoc](docs/intellij.png)
