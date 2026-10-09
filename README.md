@@ -7,7 +7,7 @@
 Plateforme de gestion de location de véhicules **multi-agences** : étude de cas du module
 UP ASI (Architecture des Systèmes d'Information), ESPRIT.
 
-> **Statut : v0 (Atelier 0)** : mise en place de l'environnement et cadrage initial.
+> **Statut : Atelier 3** : entités JPA, couche Repository (Spring Data JPA) et couche Service.
 
 ## 1. Objectifs du projet
 
@@ -80,3 +80,43 @@ Pour revenir à MySQL, il suffit de remettre `mysql-connector-j` et `jdbc:mysql:
 ### Postman : collection AutoLoc-API
 
 ![Postman avec la collection AutoLoc-API](docs/postman.png)
+
+## 5. Couches Repository et Service (Atelier 3)
+
+### Repositories
+
+Le package `tn.esprit.autoloc.repository` contient une interface par entité, nommée avec le
+préfixe `I`. Toutes étendent `JpaRepository<Entité, Long>` : CRUD complet, `findAll` renvoie une
+`List`, tri, pagination et `flush` disponibles. Aucune implémentation n'est écrite : Spring Data
+génère le proxy au démarrage.
+
+| Entité | Repository | Service |
+|---|---|---|
+| Agence | `IAgenceRepository` | `IAgenceService` / `AgenceServiceImpl` |
+| Employe | `IEmployeRepository` | `IEmployeService` / `EmployeServiceImpl` |
+| Vehicule | `IVehiculeRepository` | `IVehiculeService` / `VehiculeServiceImpl` |
+| Equipement | `IEquipementRepository` | `IEquipementService` / `EquipementServiceImpl` |
+| Client | `IClientRepository` | `IClientService` / `ClientServiceImpl` |
+| Reservation | `IReservationRepository` | `IReservationService` / `ReservationServiceImpl` |
+| Contrat | `IContratRepository` | `IContratService` / `ContratServiceImpl` |
+| Paiement | `IPaiementRepository` | `IPaiementService` / `PaiementServiceImpl` |
+| Maintenance | `IMaintenanceRepository` | `IMaintenanceService` / `MaintenanceServiceImpl` |
+
+### Services
+
+Le package `tn.esprit.autoloc.service` contient, pour chaque entité, une interface `I…Service`
+et sa classe `…ServiceImpl` annotée `@Service`. Le repository est injecté par constructeur
+(`@RequiredArgsConstructor`).
+
+Le CRUD complet est écrit pour **Agence** et **Vehicule** :
+
+| Méthode | Comportement |
+|---|---|
+| `addAgence` / `addVehicule` | Remet l'identifiant à `null` puis `save` : toujours un `INSERT`. |
+| `updateAgence` / `updateVehicule` | Charge la ligne par son id, recopie les champs, puis `save`. Les collections (`vehicules`, `reservations`…) ne sont pas touchées. |
+| `getAgenceById` / `getVehiculeById` | `findById` puis `orElseThrow` : `EntityNotFoundException` si l'id n'existe pas. |
+| `getAllAgences` / `getAllVehicules` | `findAll`, renvoie une `List`. |
+| `deleteAgence` / `deleteVehicule` | Vérifie `existsById` avant `deleteById`, qui ne lève plus d'exception sur un id absent depuis Spring Data 3. |
+
+Les services des sept autres entités sont déclarés et vides : leur code métier sera ajouté à
+l'Atelier 4.
