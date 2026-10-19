@@ -7,7 +7,7 @@
 Plateforme de gestion de location de véhicules **multi-agences** : étude de cas du module
 UP ASI (Architecture des Systèmes d'Information), ESPRIT.
 
-> **Statut : Atelier 3** : entités JPA, couche Repository (Spring Data JPA) et couche Service.
+> **Statut : Atelier 4** : entités JPA, couche Repository (Spring Data JPA) et couche Service (IoC / injection de dépendances).
 
 ## 1. Objectifs du projet
 
@@ -81,7 +81,7 @@ Pour revenir à MySQL, il suffit de remettre `mysql-connector-j` et `jdbc:mysql:
 
 ![Postman avec la collection AutoLoc-API](docs/postman.png)
 
-## 5. Couches Repository et Service (Atelier 3)
+## 5. Couches Repository et Service (Ateliers 3 et 4)
 
 ### Repositories
 
@@ -102,21 +102,37 @@ génère le proxy au démarrage.
 | Paiement | `IPaiementRepository` | `IPaiementService` / `PaiementServiceImpl` |
 | Maintenance | `IMaintenanceRepository` | `IMaintenanceService` / `MaintenanceServiceImpl` |
 
-### Services
+### Services (Atelier 4)
 
 Le package `tn.esprit.autoloc.service` contient, pour chaque entité, une interface `I…Service`
 et sa classe `…ServiceImpl` annotée `@Service`. Le repository est injecté par constructeur
-(`@RequiredArgsConstructor`).
+(`@RequiredArgsConstructor`, champ `final`, typé par l'interface) : aucun `new`, aucune
+injection par attribut, aucun état modifiable.
 
-Le CRUD complet est écrit pour **Agence** et **Vehicule** :
+Huit services exposent le même contrat CRUD ; `IPaiementService` est en lecture seule
+(`findById`, `findAll`), les paiements suivant le cycle de vie de leur contrat.
 
 | Méthode | Comportement |
 |---|---|
-| `addAgence` / `addVehicule` | Remet l'identifiant à `null` puis `save` : toujours un `INSERT`. |
-| `updateAgence` / `updateVehicule` | Charge la ligne par son id, recopie les champs, puis `save`. Les collections (`vehicules`, `reservations`…) ne sont pas touchées. |
-| `getAgenceById` / `getVehiculeById` | `findById` puis `orElseThrow` : `EntityNotFoundException` si l'id n'existe pas. |
-| `getAllAgences` / `getAllVehicules` | `findAll`, renvoie une `List`. |
-| `deleteAgence` / `deleteVehicule` | Vérifie `existsById` avant `deleteById`, qui ne lève plus d'exception sur un id absent depuis Spring Data 3. |
+| `create` | Refuse un identifiant non `null` (sinon `save` ferait un `merge`), applique la règle de gestion, puis `save`. |
+| `findById` | `findById` puis `orElseThrow` : `ResourceNotFoundException` si l'id n'existe pas. |
+| `findAll` | `findAll`, renvoie une `List`. |
+| `update` | Charge l'existant, recopie les attributs modifiables (ni l'id ni les collections), puis `save`. |
+| `deleteById` | Vérifie `existsById` (sinon `ResourceNotFoundException`) avant `deleteById`. |
 
-Les services des sept autres entités sont déclarés et vides : leur code métier sera ajouté à
-l'Atelier 4.
+Règles de gestion (`IllegalArgumentException`) :
+
+| Service | Règle |
+|---|---|
+| Agence | Nom, ville et adresse obligatoires. |
+| Employe | Nom, prénom et rôle obligatoires. |
+| Vehicule | Tarif journalier non négatif. |
+| Equipement | Libellé obligatoire. |
+| Client | Nom, prénom et e-mail obligatoires. |
+| Reservation | Date de fin non antérieure à la date de début. |
+| Contrat | Montant total non négatif ; la suppression supprime les paiements par cascade. |
+| Maintenance | Date de fin non antérieure à la date de début. |
+
+L'exception métier `ResourceNotFoundException` se trouve dans `tn.esprit.autoloc.exception`.
+Les réponses de l'atelier (modes d'injection, erreurs du conteneur, SonarQube, questions) sont
+dans [docs/service-notes.md](docs/service-notes.md).
