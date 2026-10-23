@@ -1,0 +1,32 @@
+$kind: http-request
+url: "{{baseUrl}}/api/contrats"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "dateSignature": "2026-11-02",
+      "montantTotal": 480.0,
+      "valide": true,
+      "paiements": [
+        {
+          "montant": 150.0,
+          "datePaiement": "2026-11-02",
+          "modePaiement": "CARTE"
+        },
+        {
+          "montant": 330.0,
+          "datePaiement": "2026-11-06",
+          "modePaiement": "VIREMENT"
+        }
+      ]
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Statut 201", () => pm.response.to.have.status(201));
+      pm.environment.set("contratCascadeId", pm.response.json().idContrat);
+      pm.test("Deux paiements", () => pm.expect(pm.response.json().paiements).to.have.length(2));
+      pm.environment.set("paiementId", pm.response.json().paiements[0].idPaiement);
+    language: text/javascript
+order: 7000

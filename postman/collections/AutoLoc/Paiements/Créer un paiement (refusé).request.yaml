@@ -1,0 +1,16 @@
+$kind: http-request
+url: "{{baseUrl}}/api/paiements"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "montant": 100.0,
+      "datePaiement": "2026-11-02",
+      "modePaiement": "ESPECES"
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test("Statut 405", () => pm.response.to.have.status(405));
+    language: text/javascript
+order: 4000

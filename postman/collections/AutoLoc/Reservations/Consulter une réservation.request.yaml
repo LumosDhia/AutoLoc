@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{baseUrl}}/api/reservations/{{reservationId}}"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Statut 200", () => pm.response.to.have.status(200));
+      pm.test("Identifiant", () => pm.expect(pm.response.json().idReservation).to.eql(Number(pm.environment.get("reservationId"))));
+    language: text/javascript
+order: 3000

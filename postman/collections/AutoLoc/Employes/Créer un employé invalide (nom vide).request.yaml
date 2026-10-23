@@ -1,0 +1,19 @@
+$kind: http-request
+url: "{{baseUrl}}/api/employes"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "nom": "",
+      "prenom": "Sana",
+      "role": "AGENT",
+      "agence": {
+        "idAgence": {{agenceId}}
+      }
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test("Statut 400", () => pm.response.to.have.status(400));
+    language: text/javascript
+order: 5000

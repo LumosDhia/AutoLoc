@@ -1,0 +1,19 @@
+$kind: http-request
+url: "{{baseUrl}}/api/maintenances"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "dateDebut": "2026-11-10",
+      "dateFin": "2026-11-01",
+      "description": "Vidange",
+      "vehicule": {
+        "idVehicule": {{vehiculeId}}
+      }
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test("Statut 400", () => pm.response.to.have.status(400));
+    language: text/javascript
+order: 5000

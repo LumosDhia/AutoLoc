@@ -1,0 +1,24 @@
+$kind: http-request
+url: "{{baseUrl}}/api/vehicules"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "immatriculation": "TU-{{$timestamp}}{{$randomInt}}",
+      "marque": "Peugeot",
+      "modele": "208",
+      "categorie": "CITADINE",
+      "tarifJournalier": 90.0,
+      "statut": "DISPONIBLE",
+      "agence": {
+        "idAgence": {{agenceId}}
+      }
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Statut 201", () => pm.response.to.have.status(201));
+      pm.environment.set("vehiculeIdASupprimer", pm.response.json().idVehicule);
+    language: text/javascript
+order: 8000

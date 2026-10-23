@@ -1,5 +1,6 @@
 package tn.esprit.autoloc.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,5 +34,6 @@ public class Paiement {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_contrat", nullable = false)
+    @JsonBackReference("contrat-paiements")
     private Contrat contrat;
 }

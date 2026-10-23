@@ -2,6 +2,10 @@
 workspace:
   id: 11b7ed0b-6325-48c1-856d-d83dfe25959d
 
+cloudResources:
+  collections:
+    ../postman/collections/AutoLoc: e63e344b-6577-46c7-abb6-1e4ba50b3728
+
 # All resources in the `postman/` folder are automatically registered in Local View.
 # Point to additional files outside the `postman/` folder to register them individually. Example:
 #localResources:

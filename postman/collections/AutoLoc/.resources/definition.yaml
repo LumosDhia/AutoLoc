@@ -1,0 +1,2 @@
+$kind: collection
+description: "Atelier 5 : tests de l'API REST AutoLoc (requêtes nominales, cas 404 et 400)."

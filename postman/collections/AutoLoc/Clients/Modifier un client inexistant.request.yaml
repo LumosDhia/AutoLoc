@@ -1,0 +1,19 @@
+$kind: http-request
+url: "{{baseUrl}}/api/clients/9999"
+method: PUT
+body:
+  type: json
+  content: |-
+    {
+      "nom": "Ben Salah",
+      "prenom": "Amine",
+      "email": "client{{$timestamp}}{{$randomInt}}@mail.tn",
+      "telephone": "22111111",
+      "numPermis": "P{{$timestamp}}{{$randomInt}}",
+      "dateInscription": "2026-10-23"
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test("Statut 404", () => pm.response.to.have.status(404));
+    language: text/javascript
+order: 7000

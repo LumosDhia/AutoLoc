@@ -1,0 +1,17 @@
+$kind: http-request
+url: "{{baseUrl}}/api/agences/9999"
+method: PUT
+body:
+  type: json
+  content: |-
+    {
+      "nom": "AutoLoc Tunis Centre",
+      "ville": "Tunis",
+      "adresse": "12 avenue Habib Bourguiba",
+      "telephone": "71111111"
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test("Statut 404", () => pm.response.to.have.status(404));
+    language: text/javascript
+order: 7000

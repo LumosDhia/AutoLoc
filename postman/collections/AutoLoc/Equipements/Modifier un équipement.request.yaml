@@ -1,0 +1,16 @@
+$kind: http-request
+url: "{{baseUrl}}/api/equipements/{{equipementId}}"
+method: PUT
+body:
+  type: json
+  content: |-
+    {
+      "libelle": "Siège bébé"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Statut 200", () => pm.response.to.have.status(200));
+      pm.test("Valeur modifiée", () => pm.expect(pm.response.json().libelle).to.eql("Siège bébé"));
+    language: text/javascript
+order: 6000

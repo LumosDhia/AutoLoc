@@ -1,0 +1,19 @@
+$kind: http-request
+url: "{{baseUrl}}/api/maintenances/9999"
+method: PUT
+body:
+  type: json
+  content: |-
+    {
+      "dateDebut": "2026-11-10",
+      "dateFin": "2026-11-12",
+      "description": "Vidange et pneus",
+      "vehicule": {
+        "idVehicule": {{vehiculeId}}
+      }
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test("Statut 404", () => pm.response.to.have.status(404));
+    language: text/javascript
+order: 7000

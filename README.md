@@ -7,7 +7,7 @@
 Plateforme de gestion de location de véhicules **multi-agences** : étude de cas du module
 UP ASI (Architecture des Systèmes d'Information), ESPRIT.
 
-> **Statut : Atelier 4** : entités JPA, couche Repository (Spring Data JPA) et couche Service (IoC / injection de dépendances).
+> **Statut : Atelier 5** : entités JPA, couches Repository et Service, API REST (Spring MVC) testée avec Postman et documentée avec SpringDoc / Swagger UI.
 
 ## 1. Objectifs du projet
 

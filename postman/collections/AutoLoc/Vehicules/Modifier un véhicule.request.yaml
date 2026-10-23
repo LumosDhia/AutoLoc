@@ -1,0 +1,24 @@
+$kind: http-request
+url: "{{baseUrl}}/api/vehicules/{{vehiculeId}}"
+method: PUT
+body:
+  type: json
+  content: |-
+    {
+      "immatriculation": "TU-{{$timestamp}}{{$randomInt}}",
+      "marque": "Peugeot",
+      "modele": "208",
+      "categorie": "CITADINE",
+      "tarifJournalier": 95.0,
+      "statut": "DISPONIBLE",
+      "agence": {
+        "idAgence": {{agenceId}}
+      }
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Statut 200", () => pm.response.to.have.status(200));
+      pm.test("Valeur modifiée", () => pm.expect(pm.response.json().tarifJournalier).to.eql(95.0));
+    language: text/javascript
+order: 6000

@@ -1,0 +1,30 @@
+name: local
+values:
+  - key: baseUrl
+    value: 'http://localhost:8080'
+  - key: contratId
+    value: ''
+  - key: contratCascadeId
+    value: ''
+  - key: paiementId
+    value: ''
+  - key: agenceId
+    value: ''
+  - key: agenceIdASupprimer
+    value: ''
+  - key: employeId
+    value: ''
+  - key: vehiculeId
+    value: ''
+  - key: vehiculeIdASupprimer
+    value: ''
+  - key: equipementId
+    value: ''
+  - key: clientId
+    value: ''
+  - key: clientIdASupprimer
+    value: ''
+  - key: reservationId
+    value: ''
+  - key: maintenanceId
+    value: ''

@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{baseUrl}}/api/employes/{{employeId}}"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Statut 200", () => pm.response.to.have.status(200));
+      pm.test("Identifiant", () => pm.expect(pm.response.json().idEmploye).to.eql(Number(pm.environment.get("employeId"))));
+    language: text/javascript
+order: 3000

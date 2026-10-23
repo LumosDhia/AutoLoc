@@ -1,0 +1,16 @@
+$kind: http-request
+url: "{{baseUrl}}/api/contrats/9999"
+method: PUT
+body:
+  type: json
+  content: |-
+    {
+      "dateSignature": "2026-11-02",
+      "montantTotal": 520.0,
+      "valide": true
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test("Statut 404", () => pm.response.to.have.status(404));
+    language: text/javascript
+order: 10000
