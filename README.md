@@ -136,3 +136,57 @@ Règles de gestion (`IllegalArgumentException`) :
 L'exception métier `ResourceNotFoundException` se trouve dans `tn.esprit.autoloc.exception`.
 Les réponses de l'atelier (modes d'injection, erreurs du conteneur, SonarQube, questions) sont
 dans [docs/service-notes.md](docs/service-notes.md).
+
+## 6. API REST, tests Postman et documentation Swagger (Atelier 5)
+
+### Contrôleurs REST
+
+Le package `tn.esprit.autoloc.web.controller` expose la couche Service en API REST. Le préfixe
+commun `/api` est défini une seule fois (`server.servlet.context-path=/api`). Chaque contrôleur est
+annoté `@RestController` et `@RequestMapping("/<ressource>")`, et dépend de l'interface
+`I…Service` injectée par constructeur (`@RequiredArgsConstructor`, champ `final`).
+
+| Opération | Verbe et route | Succès | Erreurs |
+|---|---|---|---|
+| Lister | `GET /api/<ressource>` | 200 | — |
+| Consulter | `GET /api/<ressource>/{id}` | 200 | 404 |
+| Créer | `POST /api/<ressource>` | 201 | 400 |
+| Modifier | `PUT /api/<ressource>/{id}` | 200 | 404, 400 |
+| Supprimer | `DELETE /api/<ressource>/{id}` | 204 | 404 |
+
+Ressources : `agences`, `employes`, `vehicules`, `equipements`, `clients`, `reservations`,
+`contrats`, `maintenances` (CRUD complet) et `paiements` (lecture seule : un `POST` renvoie 405).
+`GlobalExceptionHandler` traduit `ResourceNotFoundException` en 404 et `IllegalArgumentException`
+en 400, avec un corps JSON `statut`, `message`, `horodatage`.
+
+Les boucles de sérialisation sont évitées par la paire `@JsonManagedReference` /
+`@JsonBackReference` sur Contrat ↔ Paiement (composition, `cascade = ALL`) et par `@JsonIgnore` sur
+les côtés inverses des autres associations.
+
+### Postman
+
+La collection **AutoLoc** (un dossier par entité, environnement **local** avec `baseUrl`) contient
+84 requêtes : requêtes nominales, cas 404, cas 400 et scénario de cascade Contrat → Paiements.
+Exportée dans [docs/postman/](docs/postman/).
+
+Exemple : création d'un contrat avec ses paiements (201, cascade PERSIST).
+
+![Postman : créer un contrat avec ses paiements](docs/postman/screenshots/07-creer-contrat-avec-paiements-201.png)
+
+Exécution de toute la collection : 118 tests, 118 réussis, 0 échec.
+
+![Postman : Run AutoLoc](docs/postman/screenshots/19-run-collection.png)
+
+### Swagger UI
+
+SpringDoc (`springdoc-openapi-starter-webmvc-ui`) génère la description OpenAPI à partir des
+contrôleurs, enrichie par `OpenApiConfig` et les annotations `@Tag`, `@Operation`,
+`@ApiResponse` et `@Parameter` :
+
+- Swagger UI : http://localhost:8080/api/swagger-ui.html
+- Description OpenAPI (JSON) : http://localhost:8080/api/v3/api-docs
+
+![Swagger UI : AutoLoc API](docs/postman/screenshots/20-swagger-ui.png)
+
+Toutes les captures, le tableau des endpoints, les annotations Jackson et les réponses de
+l'atelier sont dans [docs/api-notes.md](docs/api-notes.md).
